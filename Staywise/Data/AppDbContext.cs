@@ -13,7 +13,7 @@ public class AppDbContext : DbContext
     // Db set appears at this place
     public DbSet<User> Users { get; set; }
     public DbSet<Listing> Listings { get; set; }
-    // public DbSet<Booking> Bookings { get; set; }
+    public DbSet<Booking> Bookings { get; set; }
     // public DbSet<Listing> Listings{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ public class AppDbContext : DbContext
         {
             address.OwnsOne(a => a.Location);
         });
-        
+
         modelBuilder.Entity<Listing>().Property(l => l.Amenities).HasColumnType("jsonb");
         modelBuilder.Entity<Listing>().Property(l => l.Photos).HasColumnType("jsonb");
 

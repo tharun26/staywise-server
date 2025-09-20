@@ -62,7 +62,7 @@ public class ListingController : ControllerBase
 
         var response = _mapper.Map<ListingResponseDto>(listing);
         return Ok(response);
-    } 
+    }
 
     [Authorize]
     [HttpPut("{id}")]
@@ -111,7 +111,7 @@ public class ListingController : ControllerBase
 
         var response = _mapper.Map<ListingResponseDto>(existingListing);
         return Ok(response);
-    } 
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ListingResponseDto>> GetById(Guid id)
@@ -121,5 +121,13 @@ public class ListingController : ControllerBase
 
         var response = _mapper.Map<ListingResponseDto>(listing);
         return Ok(response);
-    }  
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<ListingResponseDto>>> Get()
+    {
+        var listings = await _dbContext.Listings.ToListAsync();
+        var response = _mapper.Map<List<ListingResponseDto>>(listings);
+        return Ok(response);
+    }
 }

@@ -68,7 +68,10 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Verify()
     {
         var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (email == null) {
+        Console.WriteLine("******** Email is {0}",email);
+
+        if (email == null)
+        {
             return Unauthorized("No Claims Info");
         }
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);

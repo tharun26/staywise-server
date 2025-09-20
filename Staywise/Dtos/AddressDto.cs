@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Staywise.Models;
+namespace Staywise.Dtos;
 
-public class Address
+
+public class AddressDto
 {
     [Required]
     public string Line1 { get; set; } = string.Empty;
@@ -17,5 +18,5 @@ public class Address
     [Required]
     public int PostalCode { get; set; }
     [Required]
-    public Location Location { get; set; } = new Location();
+    public LocationDto Location { get; set; } = new LocationDto();
 }

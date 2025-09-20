@@ -28,6 +28,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Listing>().Property(l => l.Amenities).HasColumnType("jsonb");
         modelBuilder.Entity<Listing>().Property(l => l.Photos).HasColumnType("jsonb");
 
+        modelBuilder.Entity<Booking>()
+        .Property(b => b.Status)
+        .HasConversion<string>();
+
     }
     
 }

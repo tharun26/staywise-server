@@ -13,7 +13,7 @@ namespace Staywise.Controllers;
 
 
 [ApiController]
-[Route("/api/listing")]
+[Route("/api/[controller]")]
 public class ListingController : ControllerBase
 {
     private readonly AppDbContext _dbContext;

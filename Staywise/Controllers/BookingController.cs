@@ -9,7 +9,7 @@ namespace Staywise.Controllers;
 
 
 [ApiController]
-[Route("/api/booking")]
+[Route("/api/[controller]")]
 public class BookingController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
@@ -34,7 +34,7 @@ public class BookingController : ControllerBase
                                                 b.ListingId == booking.ListingId &&
                                                 booking.CheckIn < b.CheckOut &&
                                                 booking.CheckOut > b.CheckIn);
-        
+
         if (hasConflict)
         {
             return BadRequest("This listing is already booked for the selected dates.");
@@ -66,6 +66,20 @@ public class BookingController : ControllerBase
         }
         var response = _mapper.Map<BookingResponseDto>(booking);
         return Ok(response);
+    }
+
+    [Authorize]
+    [HttpPut("{id}/cancel")]
+    public async Task<IActionResult> CancelBooking(Guid Id)
+    {
+        var booking = await _dbContext.Bookings.FirstOrDefaultAsync(b => b.Id == Id);
+        if (booking is null)
+        {
+            return NotFound("Booking Id does not exist");
+        }
+        booking.Status = Enums.Status.Cancelled;
+        await _dbContext.SaveChangesAsync();
+        return Ok();
     }
 
 }

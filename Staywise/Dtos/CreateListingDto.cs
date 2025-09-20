@@ -15,4 +15,8 @@ public class CreateListingDto
 
     [Required]
     public AddressDto Address { get; set; } = new();
+
+    public IFormFile? Photo { get; set; }
+
+    public List<string> Amenities { get; set; } = new();
 }

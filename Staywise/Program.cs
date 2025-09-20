@@ -41,6 +41,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(dataSou
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 

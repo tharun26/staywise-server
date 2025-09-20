@@ -26,3 +26,6 @@ appsettings.Development.json
 *.pdb
 *.cache
 *.vs/
+
+#images
+staywise/wwwroot/uploads

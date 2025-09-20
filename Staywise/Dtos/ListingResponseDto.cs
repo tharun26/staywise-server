@@ -10,4 +10,7 @@ public class ListingResponseDto
     public string? Description { get; set; }
     public decimal PricePerNight { get; set; }
     public AddressDto Address { get; set; } = new();
+    public List<string> Amenities { get; set; } = new();
+    public List<string> Photos { get; set; } = new();
+
 }

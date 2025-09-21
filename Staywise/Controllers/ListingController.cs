@@ -116,7 +116,7 @@ public class ListingController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ListingResponseDto>> GetById(Guid id)
     {
-        var listing = await _dbContext.Listings.FindAsync(id);
+        var listing = await _dbContext.Listings.Include(l => l.Address).FirstOrDefaultAsync(x => x.Id == id);
         if (listing == null) return NotFound();
 
         var response = _mapper.Map<ListingResponseDto>(listing);
@@ -126,7 +126,7 @@ public class ListingController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<ListingResponseDto>>> Get()
     {
-        var listings = await _dbContext.Listings.ToListAsync();
+        var listings = await _dbContext.Listings.Include(l => l.Address).ToListAsync();
         var response = _mapper.Map<List<ListingResponseDto>>(listings);
         return Ok(response);
     }
@@ -134,7 +134,7 @@ public class ListingController : ControllerBase
     [HttpPost("by-ids")]
     public async Task<ActionResult<List<ListingResponseDto>>> GetByIds([FromBody] List<Guid> Ids)
     {
-        var listings = await _dbContext.Listings.Where(l => Ids.Contains(l.Id)).ToListAsync();
+        var listings = await _dbContext.Listings.Include(l => l.Address).Where(l => Ids.Contains(l.Id)).ToListAsync();
         if (!listings.Any())
         {
             return NotFound("No listings found");

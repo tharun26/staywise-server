@@ -4,6 +4,8 @@ namespace Staywise.Models;
 
 public class Address
 {
+    public Guid Id { get; set; } = Guid.NewGuid();
+
     [Required]
     public string Line1 { get; set; } = string.Empty;
     [Required]

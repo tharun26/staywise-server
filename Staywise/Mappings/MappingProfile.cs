@@ -12,6 +12,7 @@ public class MappingProfile : Profile
 
         //Dto to Entity
         CreateMap<CreateListingDto, Listing>();
+
         CreateMap<UpdateListingDto, Listing>();
         CreateMap<AddressDto, Address>();
         CreateMap<LocationDto, Location>();

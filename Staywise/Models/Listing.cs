@@ -20,8 +20,7 @@ public class Listing
     public decimal PricePerNight { get; set; }
 
     [Required]
-    public Address Address { get; set; } = new();
-
+    public Guid AddressId { get; set; }
     public List<string> Amenities { get; set; } = new();
 
     public List<string> Photos { get; set; } = new();
@@ -31,7 +30,9 @@ public class Listing
 
     public int BedRooms { get; set; }
     public int BathRooms { get; set; }
-    
+
     //Navigation property
     public User? Host { get; set; }
+    public Address? Address { get; set; } = new();
+
 }

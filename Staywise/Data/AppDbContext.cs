@@ -15,15 +15,13 @@ public class AppDbContext : DbContext
     public DbSet<Listing> Listings { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<Review> Reviews{ get; set; }
+    public DbSet<Address> Addresses{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Listing>().OwnsOne(l => l.Address, address =>
-        {
-            address.OwnsOne(a => a.Location);
-        });
+        modelBuilder.Entity<Address>().OwnsOne(a => a.Location);
 
         modelBuilder.Entity<Listing>().Property(l => l.Amenities).HasColumnType("jsonb");
         modelBuilder.Entity<Listing>().Property(l => l.Photos).HasColumnType("jsonb");

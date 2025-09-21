@@ -50,7 +50,7 @@ public class BookingController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<BookingResponseDto>>> GetAll()
     {
-        var bookings = await _dbContext.Bookings.Include(b => b.Listing).ToListAsync();
+        var bookings = await _dbContext.Bookings.Include(b => b.Listing).ThenInclude(l => l.Address).ToListAsync();
         var response = _mapper.Map<List<BookingResponseDto>>(bookings);
         return Ok(response);
     }

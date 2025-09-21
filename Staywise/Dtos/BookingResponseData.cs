@@ -12,4 +12,6 @@ public class BookingResponseDto
     public DateTime CheckOut { get; set; }
     public decimal TotalPrice { get; set; }
     public string Status { get; set; }   
+
+    public ListingResponseDto?  Listing {get;set;}
 }

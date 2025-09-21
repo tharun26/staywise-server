@@ -16,14 +16,21 @@ public class MappingProfile : Profile
         CreateMap<AddressDto, Address>();
         CreateMap<LocationDto, Location>();
 
+        CreateMap<CreateReviewDto, Review>();
+        CreateMap<UpdateReviewDto, Review>();
+
+
         CreateMap<CreateBookingDto, Booking>();
         CreateMap<UpdateBookingDto, Booking>();
 
         // Entity -> Response DTO
         CreateMap<Listing, ListingResponseDto>();
+        CreateMap<Listing, BookingResponseDto>();
         CreateMap<Booking, BookingResponseDto>();
         CreateMap<Address, AddressDto>();
         CreateMap<Location, LocationDto>();
         CreateMap<Booking, BookingResponseDates>();
+
+        CreateMap<Review, ReviewResponseDto>();
     } 
 }

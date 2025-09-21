@@ -22,5 +22,6 @@ public class Booking
     public Status Status { get; set; }
 
     public User? Guest { get; set; }
+    public Listing? Listing { get; set; }
 
 }

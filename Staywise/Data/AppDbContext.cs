@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Listing> Listings { get; set; }
     public DbSet<Booking> Bookings { get; set; }
-    // public DbSet<Listing> Listings{ get; set; }
+    public DbSet<Review> Reviews{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

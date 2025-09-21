@@ -50,7 +50,7 @@ public class BookingController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<BookingResponseDto>>> GetAll()
     {
-        var bookings = await _dbContext.Bookings.ToListAsync();
+        var bookings = await _dbContext.Bookings.Include(b => b.Listing).ToListAsync();
         var response = _mapper.Map<List<BookingResponseDto>>(bookings);
         return Ok(response);
     }
@@ -59,7 +59,7 @@ public class BookingController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<List<BookingResponseDto>>> GetById(Guid Id)
     {
-        var booking = await _dbContext.Bookings.FirstOrDefaultAsync(b => b.Id == Id);
+        var booking = await _dbContext.Bookings.Include(b => b.Listing).FirstOrDefaultAsync(b => b.Id == Id);
         if (booking is null)
         {
             return NotFound("Booking Id Does not exist");

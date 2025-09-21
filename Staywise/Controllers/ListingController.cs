@@ -130,4 +130,25 @@ public class ListingController : ControllerBase
         var response = _mapper.Map<List<ListingResponseDto>>(listings);
         return Ok(response);
     }
+
+    [HttpPost("by-ids")]
+    public async Task<ActionResult<List<ListingResponseDto>>> GetByIds([FromBody] List<Guid> Ids)
+    {
+        var listings = await _dbContext.Listings.Where(l => Ids.Contains(l.Id)).ToListAsync();
+        if (!listings.Any())
+        {
+            return NotFound("No listings found");
+        }
+        var response = _mapper.Map<List<ListingResponseDto>>(listings);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}/bookings")]
+    public async Task<ActionResult<List<BookingResponseDates>>> GetBookingDates(Guid Id)
+    {
+        var bookingsByListings = await _dbContext.Bookings.Where(b => b.ListingId == Id).ToListAsync();
+       
+        var response = _mapper.Map<List<BookingResponseDates>>(bookingsByListings);
+        return Ok(response);
+    }
 }

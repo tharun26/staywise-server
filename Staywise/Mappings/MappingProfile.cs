@@ -24,5 +24,6 @@ public class MappingProfile : Profile
         CreateMap<Booking, BookingResponseDto>();
         CreateMap<Address, AddressDto>();
         CreateMap<Location, LocationDto>();
+        CreateMap<Booking, BookingResponseDates>();
     } 
 }

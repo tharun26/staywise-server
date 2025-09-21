@@ -10,11 +10,11 @@ namespace Staywise.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class BookingController : ControllerBase
+public class BookingsController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
-    public BookingController(AppDbContext dbContext, IMapper mapper)
+    public BookingsController(AppDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;

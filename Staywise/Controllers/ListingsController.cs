@@ -14,12 +14,12 @@ namespace Staywise.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class ListingController : ControllerBase
+public class ListingsController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public ListingController(AppDbContext dbContext, IMapper mapper)
+    public ListingsController(AppDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
@@ -124,11 +124,30 @@ public class ListingController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ListingResponseDto>>> Get()
+    public async Task<ActionResult<object>> Get([FromQuery] int page = 1, [FromQuery] int limit = 10)
     {
-        var listings = await _dbContext.Listings.Include(l => l.Address).ToListAsync();
+        if (page < 1) page = 1;
+        if (limit < 1) limit = 10;
+
+        var skip = (page - 1) * limit;
+        var total = await _dbContext.Listings.CountAsync();
+        var totalPages = (int)Math.Ceiling(total / (double)limit);
+
+        var listings = await _dbContext.Listings
+            .Include(l => l.Address)
+            .Skip(skip)
+            .Take(limit)
+            .ToListAsync();
         var response = _mapper.Map<List<ListingResponseDto>>(listings);
-        return Ok(response);
+
+        var result = new {
+            data = response,
+            limit = limit,
+            page = page,
+            total = total,
+            totalPages = totalPages
+        };
+        return Ok(result);
     }
 
     [HttpPost("by-ids")]

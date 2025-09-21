@@ -15,11 +15,11 @@ namespace Staywise.Controllers;
 
 [ApiController]
 [Route("/api")]
-public class UserController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
     private readonly IConfiguration _configuration;
-    public UserController(AppDbContext context, IConfiguration configuration)
+    public UsersController(AppDbContext context, IConfiguration configuration)
     {
         _dbContext = context;
         _configuration = configuration;

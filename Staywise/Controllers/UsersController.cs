@@ -60,7 +60,7 @@ public class UsersController : ControllerBase
         }
         /// generate jwt token
         var jwtToken = GenerateJwtToken(user);
-        return Ok(jwtToken);
+        return Ok(new { authToken = jwtToken, user  });
     }
 
     [Authorize]
@@ -79,6 +79,89 @@ public class UsersController : ControllerBase
         }
 
         return Ok(new { user.Id, user.Email, user.Name });
+    }
+
+    [Authorize]
+    [HttpPost("users/favorites/{id}")]
+    public async Task<IActionResult> AddFav(Guid id)
+    {
+        var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (email == null)
+        {
+            return Unauthorized("No Claims Info");
+        }
+        var user = await _dbContext.Users
+            .Include(u => u.FavoriteListings)
+            .FirstOrDefaultAsync(u => u.Email == email);
+
+        if (user is null)
+        {
+            return BadRequest("User does not exist");
+        }
+
+        var listing = _dbContext.Listings.Find(id);
+        if (listing is null)
+        {
+            return BadRequest("Listing does not exist");
+        }
+
+        if (!user.FavoriteListings.Any(l => l.Id == id)) 
+        {
+            user.FavoriteListings.Add(listing);
+            await _dbContext.SaveChangesAsync();
+        }
+        var favorites = user.FavoriteListings.Select(l => l.Id).ToList();
+
+        return Ok(favorites);
+    }
+
+    [Authorize]
+    [HttpGet("users/favorites")]
+    public async Task<ActionResult<List<Guid>>> GetAllFav()
+    {
+        var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (email == null)
+        {
+            return Unauthorized("No Claims Info");
+        }
+        var user = await _dbContext.Users.Include(u => u.FavoriteListings).FirstOrDefaultAsync(u => u.Email == email);
+
+        if (user is null)
+        {
+            return BadRequest("User does not exist");
+        }
+
+        var favorites = user.FavoriteListings.Select(l => l.Id).ToList();
+        return Ok(favorites);
+    }
+
+    [Authorize]
+    [HttpDelete("users/favorites/{id}")]
+    public async Task<ActionResult<List<Guid>>> DeleteFav(Guid id)
+    {
+        var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (email == null)
+        {
+            return Unauthorized("No Claims Info");
+        }
+        var user = await _dbContext.Users.Include(u => u.FavoriteListings).FirstOrDefaultAsync(u => u.Email == email);
+
+        if (user is null)
+        {
+            return BadRequest("User does not exist");
+        }
+
+        var listingToRemove = user.FavoriteListings.FirstOrDefault(l => l.Id == id);
+        if (listingToRemove != null)
+        {
+            user.FavoriteListings.Remove(listingToRemove);
+            await _dbContext.SaveChangesAsync();
+        }
+        var favorites = user.FavoriteListings.Select(l => l.Id).ToList();
+        return Ok(favorites);
     }
 
     private string GenerateJwtToken(User user)

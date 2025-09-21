@@ -34,5 +34,5 @@ public class Listing
     //Navigation property
     public User? Host { get; set; }
     public Address? Address { get; set; } = new();
-
+    public ICollection<User> FavoritedBy { get; set; } = new List<User>();
 }

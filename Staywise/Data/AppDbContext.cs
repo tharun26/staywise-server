@@ -30,6 +30,16 @@ public class AppDbContext : DbContext
         .Property(b => b.Status)
         .HasConversion<string>();
 
+        modelBuilder.Entity<Listing>()
+            .HasOne(l => l.Host)
+            .WithMany()
+            .HasForeignKey(l => l.HostId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.FavoriteListings)
+            .WithMany(l => l.FavoritedBy)
+            .UsingEntity(j => j.ToTable("UserFavorites")); // join table name
     }
     
 }

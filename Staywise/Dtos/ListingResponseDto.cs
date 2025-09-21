@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Staywise.Models;
 
 namespace Staywise.Dtos;
 
@@ -12,5 +13,7 @@ public class ListingResponseDto
     public AddressDto Address { get; set; } = new();
     public List<string> Amenities { get; set; } = new();
     public List<string> Photos { get; set; } = new();
+
+    public User? Host{ get; set; }
 
 }

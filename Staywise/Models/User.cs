@@ -16,4 +16,6 @@ public class User
     [Required]
     public string PasswordHash { get; set; } = string.Empty;
 
+    public ICollection<Listing> FavoriteListings { get; set; } = new List<Listing>();
+
 }

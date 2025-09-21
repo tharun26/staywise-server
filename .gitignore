@@ -29,3 +29,6 @@ appsettings.Development.json
 
 #images
 staywise/wwwroot/uploads
+
+
+StaywiseData/node_modules

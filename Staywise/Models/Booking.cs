@@ -21,6 +21,7 @@ public class Booking
     [Required]
     public Status Status { get; set; }
 
+    //navigation property
     public User? Guest { get; set; }
     public Listing? Listing { get; set; }
 

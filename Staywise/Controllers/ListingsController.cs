@@ -124,7 +124,7 @@ public class ListingsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<object>> Get([FromQuery] int page = 1, [FromQuery] int limit = 10)
+    public async Task<ActionResult<ReviewResponseDto<List<ListingResponseDto>>>> Get([FromQuery] int page = 1, [FromQuery] int limit = 10, [FromQuery] string city="")
     {
         if (page < 1) page = 1;
         if (limit < 1) limit = 10;
@@ -135,6 +135,7 @@ public class ListingsController : ControllerBase
 
         var listings = await _dbContext.Listings
             .Include(l => l.Address)
+            .Where(l => l.Address !=null && (l.Address.City == city || city==""))
             .Skip(skip)
             .Take(limit)
             .ToListAsync();
